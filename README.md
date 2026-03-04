@@ -1,16 +1,101 @@
-# React + Vite
+# InspireHer Empowerment Initiative – Landing Page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a simple React landing page for the **InspireHer Empowerment Initiative**, a foundation focused on empowering girls through mentorship, education, and outreach programs.
 
-Currently, two official plugins are available:
+The goal of this project is to build and deploy a clean, responsive website while practicing an **end-to-end DevOps workflow**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Project Overview
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The landing page showcases:
 
-## Expanding the ESLint configuration
+- Foundation mission and vision  
+- Outreach activities through photo galleries  
+- Partner organizations  
+- Calls to action for mentors and mentees  
+- Contact and social media links  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+This project is intentionally kept simple as a **frontend-only React application**.
+
+---
+
+## Tech Stack
+
+- React (Vite)
+- JavaScript (JSX)
+- CSS
+- Node.js / npm
+- Git
+- GitHub
+
+---
+
+## Project Structure
+
+```
+inspireher-landing
+│
+├── public
+│   ├── gallery
+│   └── partners
+│
+├── src
+│   ├── App.jsx
+│   ├── App.css
+│   └── main.jsx
+│
+├── package.json
+└── vite.config.js
+```
+
+---
+
+## Running the Project Locally
+
+### 1. Clone the repository
+
+```
+git clone https://github.com/YOUR_USERNAME/inspireher-landing.git
+```
+
+### 2. Navigate into the project folder
+
+```
+cd inspireher-landing
+```
+
+### 3. Install dependencies
+
+```
+npm install
+```
+
+### 4. Start the development server
+
+```
+npm run dev
+```
+
+The application will run at:
+
+```
+http://localhost:5173
+```
+
+---
+
+## Future Improvements
+
+- Add mentor and mentee signup forms  
+- Improve UI styling and responsiveness  
+- Deploy to AWS EC2 with Nginx  
+- Configure domain using Route53  
+- Enable HTTPS using Let's Encrypt  
+- Automate deployment from GitHub  
+
+---
+
+## Author
+
+Created as part of a personal **DevOps end-to-end project** to practice cloud deployment and modern web development workflows.

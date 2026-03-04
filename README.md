@@ -1,101 +1,389 @@
-# InspireHer Empowerment Initiative – Landing Page
+# InspireHer Empowerment Initiative — Landing Page
 
-This project is a simple React landing page for the **InspireHer Empowerment Initiative**, a foundation focused on empowering girls through mentorship, education, and outreach programs.
+This project demonstrates the end-to-end deployment of a React application using AWS infrastructure, Nginx, and a manual CI/CD workflow.
 
-The goal of this project is to build and deploy a clean, responsive website while practicing an **end-to-end DevOps workflow**.
-
----
-
-## Project Overview
-
-The landing page showcases:
-
-- Foundation mission and vision  
-- Outreach activities through photo galleries  
-- Partner organizations  
-- Calls to action for mentors and mentees  
-- Contact and social media links  
-
-This project is intentionally kept simple as a **frontend-only React application**.
+The application is built locally, pushed to GitHub, and deployed to an EC2 server where Nginx serves the production build.
 
 ---
 
-## Tech Stack
+# Architecture
 
-- React (Vite)
-- JavaScript (JSX)
-- CSS
-- Node.js / npm
+## High Level Architecture
+
+```
+User Browser
+     │
+     ▼
+Domain (Namecheap)
+     │
+     ▼
+DNS (AWS Route 53)
+     │
+     ▼
+EC2 Public IP
+     │
+     ▼
+Nginx Web Server
+     │
+     ▼
+React Static Files
+```
+
+Users access the site through the domain. DNS resolves the domain to the EC2 instance, where Nginx serves the compiled React application.
+
+---
+
+# Project Components
+
+## React Application
+
+- Built with **React + Vite**
+- UI components live inside `src/`
+- Static assets live inside `public/`
+- Production files are generated in `dist/`
+
+Example structure:
+
+```
+src/
+  App.jsx
+  App.css
+
+public/
+  gallery/
+  partners/
+
+dist/
+  index.html
+  assets/
+```
+
+The browser only interacts with the compiled production files.
+
+---
+
+## GitHub Repository
+
+GitHub acts as the **source of truth** for the project.
+
+Development workflow:
+
+```
+Local Development
+      │
+      ▼
+Git Commit
+      │
+      ▼
+GitHub Repository
+```
+
+Example commands:
+
+```bash
+git add .
+git commit -m "Update outreach gallery"
+git push
+```
+
+---
+
+## EC2 Server
+
+An Ubuntu EC2 instance hosts the application.
+
+Installed software:
+
+- Nginx
+- Node.js
 - Git
-- GitHub
+
+Server responsibilities:
+
+- Pull latest code from GitHub
+- Build production assets
+- Serve static files
 
 ---
 
-## Project Structure
+## Nginx Web Server
+
+Nginx serves the React application.
+
+Example configuration:
+
+```nginx
+server {
+    listen 80;
+    server_name yourdomain.com www.yourdomain.com;
+
+    root /var/www/inspireher-site;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
+The `try_files` rule ensures React routing works correctly.
+
+---
+
+# Domain and DNS
+
+The domain is purchased from **Namecheap**.
+
+DNS is managed using **AWS Route 53**.
+
+Steps:
+
+1. Create hosted zone in Route 53
+2. Update Namecheap nameservers
+3. Create DNS records
+
+Example DNS records:
 
 ```
-inspireher-landing
-│
-├── public
-│   ├── gallery
-│   └── partners
-│
-├── src
-│   ├── App.jsx
-│   ├── App.css
-│   └── main.jsx
-│
-├── package.json
-└── vite.config.js
+A record   @      → EC2 Public IP
+A record   www    → EC2 Public IP
 ```
 
 ---
 
-## Running the Project Locally
+# HTTPS with Let's Encrypt
 
-### 1. Clone the repository
+SSL certificates are issued using **Certbot**.
 
+Install Certbot:
+
+```bash
+sudo apt update
+sudo apt install certbot python3-certbot-nginx
 ```
-git clone https://github.com/YOUR_USERNAME/inspireher-landing.git
+
+Generate certificate:
+
+```bash
+sudo certbot --nginx
 ```
 
-### 2. Navigate into the project folder
+Features:
 
-```
+- HTTPS enabled
+- Automatic renewal
+- HTTP → HTTPS redirect
+
+---
+
+# Development Setup
+
+## Create React App
+
+```bash
+npm create vite@latest inspireher-landing -- --template react
 cd inspireher-landing
-```
-
-### 3. Install dependencies
-
-```
 npm install
 ```
 
-### 4. Start the development server
+Run locally:
 
-```
+```bash
 npm run dev
 ```
 
-The application will run at:
+Production build:
 
-```
-http://localhost:5173
+```bash
+npm run build
 ```
 
 ---
 
-## Future Improvements
+# GitHub Setup
 
-- Add mentor and mentee signup forms  
-- Improve UI styling and responsiveness  
-- Deploy to AWS EC2 with Nginx  
-- Configure domain using Route53  
-- Enable HTTPS using Let's Encrypt  
-- Automate deployment from GitHub  
+Initialize Git:
+
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+```
+
+Connect repository:
+
+```bash
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+git push -u origin main
+```
 
 ---
 
-## Author
+# EC2 Server Setup
 
-Created as part of a personal **DevOps end-to-end project** to practice cloud deployment and modern web development workflows.
+## SSH into the server
+
+```bash
+ssh -i your-key.pem ubuntu@SERVER_IP
+```
+
+## Install required packages
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+sudo apt install nginx git nodejs npm -y
+```
+
+Enable Nginx:
+
+```bash
+sudo systemctl enable nginx
+sudo systemctl start nginx
+```
+
+---
+
+# Server Directory Layout
+
+```
+/var/www
+   │
+   ├── inspireher-repo
+   │      └── inspireher-landing
+   │            ├── src
+   │            ├── public
+   │            └── dist
+   │
+   └── inspireher-site
+          ├── index.html
+          └── assets
+```
+
+- `inspireher-repo` → source code repository
+- `inspireher-site` → production files served by Nginx
+
+---
+
+# Deployment Workflow (Manual CI/CD)
+
+The deployment pipeline is intentionally simple.
+
+```
+Developer Machine
+       │
+       ▼
+Push Code to GitHub
+       │
+       ▼
+SSH into EC2
+       │
+       ▼
+Pull Latest Code
+       │
+       ▼
+Build React Production Files
+       │
+       ▼
+Copy Files to Nginx Web Directory
+       │
+       ▼
+Reload Nginx
+```
+
+---
+
+# Deploy Commands
+
+SSH into server:
+
+```bash
+ssh ubuntu@SERVER_IP
+```
+
+Pull latest code:
+
+```bash
+cd /var/www/inspireher-repo/inspireher-landing
+git pull
+```
+
+Build the application:
+
+```bash
+npm install
+npm run build
+```
+
+Deploy the new build:
+
+```bash
+sudo rm -rf /var/www/inspireher-site/*
+sudo cp -r dist/* /var/www/inspireher-site/
+```
+
+Reload Nginx:
+
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+The updated website becomes live immediately.
+
+---
+
+# Updating the Website
+
+When making updates:
+
+1. Update files locally (React components or images)
+2. Commit and push to GitHub
+3. SSH into EC2
+4. Pull the latest code
+5. Build the new production files
+6. Deploy the updated `dist` folder
+7. Reload Nginx
+
+Example:
+
+```bash
+git add .
+git commit -m "Update outreach photos"
+git push
+```
+
+Server deploy:
+
+```bash
+git pull
+npm run build
+sudo cp -r dist/* /var/www/inspireher-site/
+sudo systemctl reload nginx
+```
+
+---
+
+# Key Concepts Demonstrated
+
+This project demonstrates:
+
+- React production builds
+- Static site hosting with Nginx
+- Domain configuration using Route 53
+- SSL certificate automation with Let's Encrypt
+- Manual CI/CD deployment workflow
+- Cloud deployment using AWS EC2
+
+---
+
+# Future Improvements
+
+Potential enhancements include:
+
+- GitHub Actions CI/CD pipeline
+- Docker containerization
+- CloudFront CDN integration
+- Infrastructure as Code (Terraform)
+- Monitoring and logging

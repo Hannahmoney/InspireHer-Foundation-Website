@@ -60,32 +60,27 @@ dist/
 
 The browser only interacts with the compiled production files.
 
----
+# Development Setup
 
-## GitHub Repository
-
-GitHub acts as the **source of truth** for the project.
-
-Development workflow:
-
-```
-Local Development
-      │
-      ▼
-Git Commit
-      │
-      ▼
-GitHub Repository
-```
-
-Example commands:
+## Create React App
 
 ```bash
-git add .
-git commit -m "Update outreach gallery"
-git push
+npm create vite@latest inspireher-landing -- --template react
+cd inspireher-landing
+npm install
 ```
 
+Run locally:
+
+```bash
+npm run dev
+```
+Production build after cloning the repo to server:
+
+```bash
+npm install
+npm run build
+```
 ---
 
 ## EC2 Server
@@ -97,6 +92,11 @@ Installed software:
 - Nginx
 - Node.js
 - Git
+
+```
+sudo apt update
+sudo apt install nginx git -y
+sudo apt install nodejs npm -y
 
 Server responsibilities:
 
@@ -149,6 +149,13 @@ A record   @      → EC2 Public IP
 A record   www    → EC2 Public IP
 ```
 
+You can allocate an elastic IP to EC2 instance so no manual updates to the IP in the DNS records if EC2 is restarted and public IP chnages.
+
+Update nginx config files at 
+
+```
+sudo nano /etc/nginx/sites-available/$name of file
+```
 ---
 
 # HTTPS with Let's Encrypt
@@ -173,30 +180,6 @@ Features:
 - HTTPS enabled
 - Automatic renewal
 - HTTP → HTTPS redirect
-
----
-
-# Development Setup
-
-## Create React App
-
-```bash
-npm create vite@latest inspireher-landing -- --template react
-cd inspireher-landing
-npm install
-```
-
-Run locally:
-
-```bash
-npm run dev
-```
-
-Production build:
-
-```bash
-npm run build
-```
 
 ---
 
@@ -378,7 +361,7 @@ This project demonstrates:
 
 ---
 
-# Future Improvements
+# Future Improvements.
 
 Potential enhancements include:
 

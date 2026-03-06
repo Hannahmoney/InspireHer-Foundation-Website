@@ -151,10 +151,13 @@ A record   www    → EC2 Public IP
 
 You can allocate an elastic IP to EC2 instance so no manual updates to the IP in the DNS records if EC2 is restarted and public IP chnages.
 
-Update nginx config files at 
+Update nginx config files at, enable it and set as default
 
 ```
 sudo nano /etc/nginx/sites-available/$name of file
+
+sudo ln -s /etc/nginx/sites-available/inspireher /etc/nginx/sites-enabled/
+sudo rm -f /etc/nginx/sites-enabled/default
 ```
 ---
 
@@ -313,6 +316,8 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
+If the website is not up, enable 
+
 The updated website becomes live immediately.
 
 ---
@@ -370,3 +375,7 @@ Potential enhancements include:
 - CloudFront CDN integration
 - Infrastructure as Code (Terraform)
 - Monitoring and logging
+- Adding Backed and RDS
+- Move to microservices architecture
+- Multi AZ deployment
+- Push to Kubernetes and/ecs deployment

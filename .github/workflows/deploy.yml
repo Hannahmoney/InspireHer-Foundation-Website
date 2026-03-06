@@ -31,7 +31,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "dist/*"
-          target: "/var/www/inspireher-site"
+          target: "/var/www/inspireher"
           strip_components: 1
 
       - name: Reload Nginx

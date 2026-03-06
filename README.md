@@ -379,3 +379,4 @@ Potential enhancements include:
 - Move to microservices architecture
 - Multi AZ deployment
 - Push to Kubernetes and/ecs deployment
+- Properly secure, add relaibility and scalability 

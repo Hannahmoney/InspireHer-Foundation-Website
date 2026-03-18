@@ -25,7 +25,9 @@ jobs:
 
             git config --global --add safe.directory /var/www/InspireHer-Foundation-Website
 
-            git pull
+            git fetch origin
+            
+            git reset --hard origin/main
 
             docker-compose down || true
 

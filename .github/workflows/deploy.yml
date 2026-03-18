@@ -23,7 +23,9 @@ jobs:
           script: |
             cd /var/www/InspireHer-Foundation-Website
 
-            git pull
+            git fetch origin
+
+            git reset --hard origin/main
 
             docker rm -f inspireher-container || true
 

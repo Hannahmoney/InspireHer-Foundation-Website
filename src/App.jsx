@@ -59,13 +59,13 @@ export default function App() {
       {/* Hero Section */}
       <section className="hero" id="hero">
         <div className="hero-content">
-          <h2>Empowering Girls to Lead Tomorrow all</h2>
+          <h2>Empowering Girls to Lead Tomorrow</h2>
           <p className="hero-subtitle">
             Building confidence, creating opportunities, and inspiring the next generation of changemakers.
           </p>
           <div className="hero-buttons">
             <a href="https://forms.google.com/forms/placeholder-mentor" className="btn btn-primary">
-              Become a Mentor Today
+              Become a Mentor
             </a>
             <a href="https://forms.google.com/forms/placeholder-mentee" className="btn btn-secondary">
               Become a Mentee

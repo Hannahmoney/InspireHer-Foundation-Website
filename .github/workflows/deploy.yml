@@ -23,6 +23,8 @@ jobs:
           script: |
             cd /var/www/InspireHer-Foundation-Website
 
+            git config --global --add safe.directory /var/www/InspireHer-Foundation-Website
+
             git pull
 
             docker-compose down || true

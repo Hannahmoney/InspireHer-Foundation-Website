@@ -59,7 +59,7 @@ export default function App() {
       {/* Hero Section */}
       <section className="hero" id="hero">
         <div className="hero-content">
-          <h2>Empowering Girls to Lead Tomorrow</h2>
+          <h2>Empowering Girls to Lead Tomorr</h2>
           <p className="hero-subtitle">
             Building confidence, creating opportunities, and inspiring the next generation of changemakers.
           </p>

@@ -65,7 +65,7 @@ export default function App() {
           </p>
           <div className="hero-buttons">
             <a href="https://forms.google.com/forms/placeholder-mentor" className="btn btn-primary">
-              Become a Mentor
+              Become a Mentor Today
             </a>
             <a href="https://forms.google.com/forms/placeholder-mentee" className="btn btn-secondary">
               Become a Mentee

@@ -25,8 +25,8 @@ jobs:
 
             git pull
 
-            docker rm -f inspireher-container || true
+            docker-compose down || true
 
-            docker build -t inspireher .
+            docker-compose up -d --build
 
-            docker run -d --name inspireher-container -p 3000:80 inspireher
+          

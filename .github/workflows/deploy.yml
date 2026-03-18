@@ -1,8 +1,9 @@
-name: Deploy to EC2 (React + Nginx)
+name: Deploy to EC2
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -12,34 +13,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Deploy dist to EC2
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "dist/*"
-          target: "/var/www/inspireher"
-          strip_components: 1
-
-      - name: Reload Nginx
+      - name: SSH into EC2 and deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+
           script: |
-            sudo nginx -t
-            sudo systemctl reload nginx
+            cd /var/www/InspireHer-Foundation-Website
+
+            git pull
+
+            docker rm -f inspireher-container || true
+
+            docker build -t inspireher .
+
+            docker run -d --name inspireher-container -p 3000:80 inspireher

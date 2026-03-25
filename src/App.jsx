@@ -1,90 +1,90 @@
-import { useEffect, useState } from "react";
-import "./App.css";
+// // import { useEffect, useState } from "react";
+// // import "./App.css";
 
-function App() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+// // function App() {
+// //   const [users, setUsers] = useState([]);
+// //   const [loading, setLoading] = useState(true);
 
-  const API_BASE = "http://3.80.135.39:8000";;
+// //   const API_BASE = "http://3.80.135.39:8000";;
 
-  const fetchUsers = async () => {
-    try {
-      const response = await fetch(`${API_BASE}/users`);
-      const data = await response.json();
-      setUsers(data);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+// //   const fetchUsers = async () => {
+// //     try {
+// //       const response = await fetch(`${API_BASE}/users`);
+// //       const data = await response.json();
+// //       setUsers(data);
+// //     } catch (error) {
+// //       console.error("Error fetching users:", error);
+// //     } finally {
+// //       setLoading(false);
+// //     }
+// //   };
 
-  const createUser = async () => {
-    try {
-      await fetch(`${API_BASE}/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: "Hannah",
-          email: "hannah@test.com",
-        }),
-      });
+// //   const createUser = async () => {
+// //     try {
+// //       await fetch(`${API_BASE}/users`, {
+// //         method: "POST",
+// //         headers: {
+// //           "Content-Type": "application/json",
+// //         },
+// //         body: JSON.stringify({
+// //           name: "Hannah",
+// //           email: "hannah@test.com",
+// //         }),
+// //       });
 
-      fetchUsers();
-    } catch (error) {
-      console.error("Error creating user:", error);
-    }
-  };
+// //       fetchUsers();
+// //     } catch (error) {
+// //       console.error("Error creating user:", error);
+// //     }
+// //   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+// //   useEffect(() => {
+// //     fetchUsers();
+// //   }, []);
 
-  return (
-    <div className="app">
-      <h1>InspireHer App</h1>
+// //   return (
+// //     <div className="app">
+// //       <h1>InspireHer App</h1>
 
-      <button onClick={createUser}>Add User</button>
+// //       <button onClick={createUser}>Add User</button>
 
-      <h2>Users</h2>
+// //       <h2>Users</h2>
 
-      {loading ? (
-        <p>Loading users...</p>
-      ) : users.length === 0 ? (
-        <p>No users yet.</p>
-      ) : (
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>
-              {user.name} - {user.email}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
+// //       {loading ? (
+// //         <p>Loading users...</p>
+// //       ) : users.length === 0 ? (
+// //         <p>No users yet.</p>
+// //       ) : (
+// //         <ul>
+// //           {users.map((user) => (
+// //             <li key={user.id}>
+// //               {user.name} - {user.email}
+// //             </li>
+// //           ))}
+// //         </ul>
+// //       )}
+// //     </div>
+// //   );
+// // }
 
-export default App;
+// // export default App;
 
-const createUser = () => {
-  fetch("http://3.80.135.39:8000/users", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: "Hannah",
-      email: "hannah@test.com",
-    }),
-  })
-    .then(() => window.location.reload())
-    .catch(console.error);
-};
+// // const createUser = () => {
+// //   fetch("http://3.80.135.39:8000/users", {
+// //     method: "POST",
+// //     headers: {
+// //       "Content-Type": "application/json",
+// //     },
+// //     body: JSON.stringify({
+// //       name: "Hannah",
+// //       email: "hannah@test.com",
+// //     }),
+// //   })
+// //     .then(() => window.location.reload())
+// //     .catch(console.error);
+// // };
 
-<button onClick={createUser}>Add User</button>
+// // <button onClick={createUser}>Add User</button>
 
 
 
@@ -149,13 +149,13 @@ const createUser = () => {
 //       {/* Hero Section */}
 //       <section className="hero" id="hero">
 //         <div className="hero-content">
-//           <h2>Empowering Girls to Lead Tomorrow</h2>
+//           <h2>Empowering Girls to Lead</h2>
 //           <p className="hero-subtitle">
 //             Building confidence, creating opportunities, and inspiring the next generation of changemakers.
 //           </p>
 //           <div className="hero-buttons">
 //             <a href="https://forms.google.com/forms/placeholder-mentor" className="btn btn-primary">
-//               Become a Mentor
+//               Become a Mentor today
 //             </a>
 //             <a href="https://forms.google.com/forms/placeholder-mentee" className="btn btn-secondary">
 //               Become a Mentee
@@ -348,3 +348,168 @@ const createUser = () => {
 //     </div>
 //   );
 // }
+
+// import React, { useEffect, useState } from "react";
+// import "./App.css";
+
+// function App() {
+//   const [users, setUsers] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState("");
+
+//   useEffect(() => {
+//     fetch("http://54.167.29.80:8000/users")
+//       .then((response) => {
+//         if (!response.ok) {
+//           throw new Error("Failed to fetch users");
+//         }
+//         return response.json();
+//       })
+//       .then((data) => {
+//         setUsers(data);
+//         setLoading(false);
+//       })
+//       .catch((err) => {
+//         setError(err.message);
+//         setLoading(false);
+//       });
+//   }, []);
+
+//   return (
+//     <div className="app">
+//       <h1>InspireHer Users</h1>
+
+//       {loading && <p>Loading users...</p>}
+//       {error && <p>Error: {error}</p>}
+
+//       {!loading && !error && users.length === 0 && <p>No users found.</p>}
+
+//       {!loading && !error && users.length > 0 && (
+//         <ul>
+//           {users.map((user) => (
+//             <li key={user.id}>
+//               <strong>{user.name}</strong> - {user.email}
+//             </li>
+//           ))}
+//         </ul>
+//       )}
+//     </div>
+//   );
+// }
+
+// export default App;
+
+import React, { useEffect, useState } from "react";
+import "./App.css";
+
+function App() {
+  const [users, setUsers] = useState([]);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  const API_BASE_URL = "http://54.167.29.80:8000";
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await fetch(`${API_BASE_URL}/users`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch users");
+      }
+
+      const data = await response.json();
+      setUsers(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!name || !email) {
+      setError("Name and email are required");
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      setError("");
+
+      const response = await fetch(`${API_BASE_URL}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create user");
+      }
+
+      setName("");
+      setEmail("");
+      await fetchUsers();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="app">
+      <h1>InspireHer Users</h1>
+
+      <form onSubmit={handleSubmit} className="user-form">
+        <input
+          type="text"
+          placeholder="Enter name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <input
+          type="email"
+          placeholder="Enter email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <button type="submit" disabled={submitting}>
+          {submitting ? "Submitting..." : "Add User"}
+        </button>
+      </form>
+
+      {error && <p className="error">Error: {error}</p>}
+
+      {loading ? (
+        <p>Loading users...</p>
+      ) : users.length === 0 ? (
+        <p>No users found.</p>
+      ) : (
+        <ul>
+          {users.map((user) => (
+            <li key={user.id}>
+              <strong>{user.name}</strong> - {user.email}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default App;

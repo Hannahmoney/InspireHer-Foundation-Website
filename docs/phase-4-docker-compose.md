@@ -6,42 +6,51 @@ Docker Compose simplifies container management and prepares the system for multi
 
 ---
 
-# Architecture
+## Architecture
 
+```text
+EC2
+  │
+  ▼
+Docker Compose
+  │
+  ▼
+Frontend Container (React + Nginx)
+```
 
 Docker Compose manages the lifecycle of the container and allows future expansion into multiple services.
 
 ---
 
-# Problem Solved
+## Problem Solved
 
 Before this phase:
 
-- manual `docker build`
-- manual `docker run`
-- manual container removal
-- difficult to scale beyond one container
+* manual `docker build`
+* manual `docker run`
+* manual container removal
+* difficult to scale beyond one container
 
 After this phase:
 
-- single command to build and run containers
-- cleaner and repeatable deployment
-- easier to extend with backend and database services
+* single command to build and run containers
+* cleaner and repeatable deployment
+* easier to extend with backend and database services
 
 ---
 
-# Prerequisites
+## Prerequisites
 
-- EC2 instance running
-- Docker installed
-- Application already containerized (Phase 2)
-- CI/CD pipeline working (Phase 3)
+* EC2 instance running
+* Docker installed
+* Application already containerized (Phase 2)
+* CI/CD pipeline working (Phase 3)
 
 ---
 
-# Project Setup
+## Project Setup
 
-## Create docker-compose.yml
+### Create docker-compose.yml
 
 Inside your project directory:
 
@@ -52,7 +61,7 @@ nano docker-compose.yml
 
 Add the following configuration:
 
-```bash
+```yaml
 version: "3.8"
 
 services:
@@ -64,49 +73,80 @@ services:
     restart: always
 ```
 
-Running the Application
-Stop old container
+---
+
+## Running the Application
+
+### Stop old container
+
+```bash
 docker rm -f inspireher-container || true
-Start with Docker Compose
+```
+
+### Start with Docker Compose
+
+```bash
 docker-compose up -d --build
+```
 
 This command:
 
-builds the image
+* builds the image
+* creates the container
+* runs it in the background
 
-creates the container
+---
 
-runs it in the background
+## Verification
 
-Verification
+### Check running containers
 
-Check running containers:
-
+```bash
 docker ps
+```
 
 Expected output:
 
+```text
 inspireher-container   0.0.0.0:3000->80/tcp
-Test Application
+```
+
+---
+
+## Test Application
 
 From browser:
 
+```text
 http://EC2_PUBLIC_IP:3000
-CI/CD Integration Update
+```
+
+---
+
+## CI/CD Integration Update
 
 Modify your GitHub Actions workflow to use Docker Compose.
 
 Replace manual Docker commands:
 
+```bash
 docker rm -f inspireher-container || true
 docker build -t inspireher .
 docker run -d --name inspireher-container -p 3000:80 inspireher
+```
 
 With:
 
+```bash
 docker-compose down || true
 docker-compose up -d --build
-Deployment Workflow
+```
+
+---
+
+## Deployment Workflow
+
+```text
 Developer Machine
        │
        ▼
@@ -123,50 +163,67 @@ docker-compose up
        │
        ▼
 Application Updated
-Common Commands
+```
 
-Start services:
+---
 
+## Common Commands
+
+### Start services
+
+```bash
 docker-compose up -d
+```
 
-Stop services:
+### Stop services
 
+```bash
 docker-compose down
+```
 
-Rebuild services:
+### Rebuild services
 
+```bash
 docker-compose up -d --build
+```
 
-View logs:
+### View logs
 
+```bash
 docker-compose logs
-Key Concepts Demonstrated
+```
 
-Docker Compose service management
+---
 
-container lifecycle automation
+## Key Concepts Demonstrated
 
-simplified deployment workflow
+* Docker Compose service management
+* container lifecycle automation
+* simplified deployment workflow
+* foundation for multi-container systems
 
-foundation for multi-container systems
+---
 
-Outcome
+## Outcome
 
 The application is now managed using Docker Compose, enabling easier deployment and preparing the system for adding backend and database services.
 
-Next Step
+---
 
-Add backend service (API)
+## Next Steps
 
-Add database (PostgreSQL / RDS)
+* Add backend service (API)
+* Add database (PostgreSQL / RDS)
+* Extend Docker Compose to multi-service architecture
 
-Extend Docker Compose to multi-service architecture
+---
 
+## Upcoming Phases
 
-Phase 5 — Backend + Database
-Phase 6 — Infrastructure as Code (Terraform)
-Phase 7 — Monitoring & Logging
-Phase 8 — Security & Reliability
-Phase 9 — Multi-AZ & Scaling
-Phase 10 — Container Orchestration (ECS/Kubernetes)
-Phase 11 — CDN (CloudFront)
+* Phase 5 — Backend + Database
+* Phase 6 — Infrastructure as Code (Terraform)
+* Phase 7 — Monitoring & Logging
+* Phase 8 — Security & Reliability
+* Phase 9 — Multi-AZ & Scaling
+* Phase 10 — Container Orchestration (ECS/Kubernetes)
+* Phase 11 — CDN (CloudFront)

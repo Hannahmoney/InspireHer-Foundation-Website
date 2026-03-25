@@ -7,36 +7,36 @@
 #     ports:
 #       - "3000:80"
 #     restart: always
-
-
 version: "3.8"
 
 services:
   frontend:
     build: .
+    container_name: inspireher-container
     ports:
-      - "80:80"
+      - "3000:80"
+    restart: always
     depends_on:
       - backend
 
   backend:
     build: ./backend
-    ports:
-      - "8000:8000"
-    environment:
-      - DATABASE_URL=postgresql://appuser:apppassword@db:5432/appdb
+    container_name: inspireher-backend
+    expose:
+      - "8000"
+    restart: always
     depends_on:
       - db
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
 
   db:
     image: postgres:15
+    container_name: inspireher-db
     restart: always
     environment:
-      POSTGRES_USER: appuser
-      POSTGRES_PASSWORD: apppassword
-      POSTGRES_DB: appdb
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
+      POSTGRES_USER: inspireher
+      POSTGRES_PASSWORD: inspireherpassword
+      POSTGRES_DB: inspireherdb
+    expose:
+      - "5432"

@@ -1,4 +1,4 @@
-.app {
+/* .app {
   min-height: 100vh;
   padding: 2rem;
   background-color: #f4f4f4;
@@ -13,4 +13,63 @@ button {
 
 ul {
   padding-left: 1.2rem;
+} */
+/* 
+.app {
+  padding: 40px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 10px;
+} */
+
+.app {
+  padding: 40px;
+  font-family: Arial, sans-serif;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.user-form input {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.user-form button {
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  margin-bottom: 16px;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 10px;
 }

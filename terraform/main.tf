@@ -57,9 +57,28 @@ resource "aws_instance" "app_server" {
 
   user_data = file("${path.module}/user-data.sh")
 
+  lifecycle {
+    prevent_destroy = false
+  }
+
   tags = {
     Name        = "${var.project_name}-${var.environment}-server"
     Project     = var.project_name
     Environment = var.environment
   }
+}
+
+resource "aws_eip" "app_eip" {
+  domain = "vpc"
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-eip"
+    Project     = var.project_name
+    Environment = var.environment
+  }
+}
+
+resource "aws_eip_association" "app_eip_assoc" {
+  instance_id   = aws_instance.app_server.id
+  allocation_id = aws_eip.app_eip.id
 }

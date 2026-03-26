@@ -53,6 +53,7 @@ from pydantic import BaseModel, ConfigDict
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
 import models
+from prometheus_fastapi_instrumentator import Instrumentator
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -90,6 +91,8 @@ def get_db():
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+Instrumentator().instrument(app).expose(app)
 
 @app.get("/users", response_model=list[UserResponse])
 def get_users(db: Session = Depends(get_db)):

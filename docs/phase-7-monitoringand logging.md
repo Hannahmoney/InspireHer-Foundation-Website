@@ -201,3 +201,5 @@ diffrent custome metrics
 metrics for developers_ who determines_
 - hat is caadvisor
 why cant i connect using public ip_
+so after restarting, graph prom every setting goes away?
+how are passwords handled for graphana enterpise grade

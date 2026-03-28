@@ -1,12 +1,3 @@
-# version: "3.8"
-
-# services:
-#   frontend:
-#     build: .
-#     container_name: inspireher-container
-#     ports:
-#       - "3000:80"
-#     restart: always
 version: "3.8"
 
 services:

@@ -48,3 +48,13 @@ variable "db_password" {
   type        = string
   sensitive   = true
 }
+
+variable "vpc_id" {
+  description = "VPC ID for ALB resources"
+  type        = string
+}
+
+variable "public_subnet_ids" {
+  description = "Public subnet IDs for ALB"
+  type        = list(string)
+}

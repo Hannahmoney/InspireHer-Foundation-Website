@@ -22,3 +22,8 @@ output "rds_endpoint" {
   description = "RDS PostgreSQL endpoint"
   value       = aws_db_instance.postgres.address
 }
+
+output "alb_dns_name" {
+  description = "Public DNS name of the ALB"
+  value       = aws_lb.app_alb.dns_name
+}

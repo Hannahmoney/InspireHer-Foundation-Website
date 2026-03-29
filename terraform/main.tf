@@ -94,7 +94,7 @@ resource "aws_security_group" "app_sg" {
     from_port   = 3000
     to_port     = 3000
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.alb_sg.id]
   }
 
   ingress {
@@ -179,6 +179,7 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
+# Instance of app server
 resource "aws_instance" "app_server" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
@@ -198,6 +199,7 @@ resource "aws_instance" "app_server" {
   }
 }
 
+#elastic ip
 resource "aws_eip" "app_eip" {
   domain = "vpc"
 
@@ -213,6 +215,7 @@ resource "aws_eip_association" "app_eip_assoc" {
   allocation_id = aws_eip.app_eip.id
 }
 
+#database
 resource "aws_db_instance" "postgres" {
   identifier             = "${var.project_name}-${var.environment}-postgres"
   engine                 = "postgres"
@@ -234,3 +237,99 @@ resource "aws_db_instance" "postgres" {
     Environment = var.environment
   }
 }
+
+
+
+#alb
+resource "aws_lb" "app_alb" {
+  name               = "${var.project_name}-${var.environment}-alb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.alb_sg.id]
+  subnets            = var.public_subnet_ids
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-alb"
+    Project     = var.project_name
+    Environment = var.environment
+  }
+}
+
+#albsg
+resource "aws_security_group" "alb_sg" {
+  name        = "${var.project_name}-${var.environment}-alb-sg"
+  description = "Security group for ALB"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description = "HTTP from internet"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "HTTPS from internet"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    description = "Allow outbound"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-alb-sg"
+    Project     = var.project_name
+    Environment = var.environment
+  }
+}
+
+#target group
+resource "aws_lb_target_group" "frontend_tg" {
+  name     = "${var.project_name}-${var.environment}-tg"
+  port     = 3000
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+
+  health_check {
+    enabled             = true
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 5
+    interval            = 15
+    path                = "/"
+    matcher             = "200-399"
+  }
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-tg"
+    Project     = var.project_name
+    Environment = var.environment
+  }
+}
+
+resource "aws_lb_target_group_attachment" "frontend_target" {
+  target_group_arn = aws_lb_target_group.frontend_tg.arn
+  target_id        = aws_instance.app_server.id
+  port             = 3000
+}
+
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.app_alb.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.frontend_tg.arn
+  }
+}
+

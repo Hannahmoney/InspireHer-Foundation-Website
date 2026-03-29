@@ -32,3 +32,19 @@ variable "my_ip_cidr" {
   description = "Your public IP in CIDR form, e.g. 1.2.3.4/32"
   type        = string
 }
+
+variable "db_name" {
+  description = "Database name"
+  type        = string
+}
+
+variable "db_username" {
+  description = "Database username"
+  type        = string
+}
+
+variable "db_password" {
+  description = "Database password"
+  type        = string
+  sensitive   = true
+}

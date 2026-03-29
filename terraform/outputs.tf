@@ -17,3 +17,8 @@ output "elastic_ip" {
   description = "Elastic IP attached to the EC2 instance"
   value       = aws_eip.app_eip.public_ip
 }
+
+output "rds_endpoint" {
+  description = "RDS PostgreSQL endpoint"
+  value       = aws_db_instance.postgres.address
+}
